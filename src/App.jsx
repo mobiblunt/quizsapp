@@ -1,26 +1,41 @@
 import React from "react"
 import './App.css'
-import QuizzicalApp from '../components/Quiz'
+
 
 
   
 export default function App() {
   const [starWarsData, setStarWarsData] = React.useState({})
-    
-    // 1. GET the data (fetch)
-    // 2. Save the data to state
+
+
+
+const QuestionsArray = []
+  
+     
     
     React.useEffect(function() {
         
         fetch("https://opentdb.com/api.php?amount=5&type=multiple")
             .then(res => res.json())
             .then(data => setStarWarsData(data))
+      QuestionsArray = starWarsData.results
     }, [])
   
   return (
+    
     <main>
-      
-      <pre>{JSON.stringify(starWarsData, null, 2)}</pre>
+      {
+            QuestionsArray.length > 0 
+            ?
+    <div id="questions">
+      <h1>In which country was the caesar salad invented?</h1>
+    </div>
+    :
+      <div id="header" > <h1 >Quizically</h1>
+        <p>some kind of description</p>
+      <button id="button">Start Quiz</button></div>
+     }
     </main>
+    
   )
 }

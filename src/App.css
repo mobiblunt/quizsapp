@@ -1,37 +1,40 @@
-
-
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Karla:wght@700&display=swap");
-body {
-  margin: 0;
-  line-height: normal;
-}
-
 main {
+  height: 550px;
+  width: 550px;
+  
+  
+  margin:auto;
+  background: #F5F7FB;
   text-align: center;
-  vertical-align: center;
+  
+
   
 }
-:root {
-  /* fonts */
-  --font-inter: Inter;
-  --font-karla: Karla;
 
-  /* font sizes */
-  --font-size-sm: 10.24px;
-  --font-size-base: 16px;
+#header {
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  justify-content: center;
+  align-items: center;
 
-  /* Colors */
-  --color-gray-100: #f5f7fb;
-  --color-gray-200: #dbdef0;
-  --color-gray-300: #d6dbf5;
-  --color-gray-400: #4d5b9e;
-  --color-gray-500: #293264;
-  --color-pink: #f8bcbc;
-  --color-turquoise: #94d7a2;
+}
 
-  /* border radiuses */
-  --br-sm: 7.71px;
-  --br-md: 7.94px;
-  --br-lg: 10px;
+#button {
+  height: 52px;
+  width: 193px;
+  left: 179px;
+  top: 314px;
+  border-radius: 15px;
+  background: navy;
+  color: white;
+}
+
+#questions {
+  height: 51.62554931640625px;
+width: 307px;
+left: 75px;
+top: 40px;
+border-radius: 7.942387104034424px;
+
 }
