@@ -11,6 +11,28 @@ main {
   
 }
 
+hr {
+  border: 0.794239px solid #DBDEF0;
+}
+
+#second {
+  width: 80%;
+  margin: auto;
+  padding: 10px;
+}
+
+.options{
+  height: 20px;
+  width: 87px;
+  border-radius: 7.710448265075684px;
+  border: 1px solid #4D5B9E;
+
+}
+#option {
+  display: flex;
+  justify-content: space-between;
+}
+
 #header {
   display: flex;
   flex-direction: column;
@@ -31,10 +53,7 @@ main {
 }
 
 #questions {
-  height: 51.62554931640625px;
-width: 307px;
-left: 75px;
-top: 40px;
-border-radius: 7.942387104034424px;
+
+  text-align: left;
 
 }
