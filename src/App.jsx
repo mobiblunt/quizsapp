@@ -3,14 +3,21 @@ import './App.css'
 import Quiz from '../components/Quiz'
 
 
-
+const gitHubUrl = "https://opentdb.com/api.php?amount=5&type=multiple";
   
 export default function App() {
-  const [starWarsData, setStarWarsData] = React.useState([])
+  const [starWarsData, setStarWarsData] = React.useState({})
+  
 
 
   let QuestionsArray = []
   let quizElements = []
+
+  const getGitHubUserWithFetch = async () => {
+  const response = await fetch(gitHubUrl)
+  const jsonData = await response.json()
+  setStarWarsData(jsonData)
+  }
 
   function getQuizzes() {
     if(QuestionsArray) {
@@ -25,11 +32,7 @@ export default function App() {
     
     React.useEffect(function() {
         
-        fetch("https://opentdb.com/api.php?amount=5&type=multiple")
-            .then(res => res.json())
-            .then(data => setStarWarsData(data))
-       
-           console.log(starWarsData)
+        getGitHubUserWithFetch();
         
             
     
@@ -52,10 +55,10 @@ export default function App() {
       <div>
 
 
-        {starWarsDatareasu.map((userObj) => (
-            <h3 id="questions">{userObj.question}</h3>
+        
+            <h3 id="questions">{starWarsData.response_code}</h3>
             
-          ))}
+          
 
 
 
@@ -74,6 +77,7 @@ export default function App() {
       </div>
      }
     </main>
+    
     
   )
 }
