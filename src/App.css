@@ -1,5 +1,5 @@
 main {
-  height: 550px;
+  height: 100%;
   width: 550px;
   
   
@@ -27,11 +27,13 @@ hr {
   border-radius: 7.710448265075684px;
   border: 1px solid #4D5B9E;
   
-
+  
 }
 #option {
   display: flex;
   justify-content: space-between;
+ 
+ 
 }
 
 #header {
