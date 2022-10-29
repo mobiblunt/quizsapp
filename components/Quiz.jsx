@@ -36,6 +36,7 @@ const handleClick = () => {
     }));
     console.log('arrOrder - ' + arrOrder);
     setStarWarsData(arrOrder);
+    
   }
 
   
@@ -91,16 +92,7 @@ const handleClick = () => {
     
     },[])
 
-
-  
-
-  
-    return (
-        <div id="second">
-      <div>
-
-        {
-         starWarsData.map((obj) => {
+const getObj = starWarsData && starWarsData.map((obj) => {
            return (
              <>
            <h3 id="questions">{obj.question}</h3>
@@ -114,15 +106,13 @@ const handleClick = () => {
                  </div>
              <hr></hr></>
          )})  
-            
-          }
+  
 
-
-
-        
-      
-      
-      
+  
+    return (
+        <div id="second">
+      <div>
+        {getObj}
         </div>
       
     </div>
