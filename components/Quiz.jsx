@@ -1,4 +1,6 @@
 import React from "react"
+import { nanoid } from 'nanoid'
+const gitHubUrl = "https://opentdb.com/api.php?amount=5&type=multiple";
 
 export default function Quiz(props) {
 
@@ -94,18 +96,24 @@ const handleClick = () => {
 
   
     return (
-        <>
+        <div id="second">
+      <div>
+
+        {
+         starWarsData.map((obj) => {
+           return (
+             <>
            <h3 id="questions">{obj.question}</h3>
                <div id="option">
                  {obj.ansArr.map((obj) => {
                return (
-                   <p key={obj.id} onClick={() =>handleClick()} className="options" style={{ backgroundColor: active ? "black" : "white" }}>{obj.value}</p>
+                   <p onClick={handleClick} className="options" style={{ backgroundColor: active ? "black" : "white" }}>{obj.value}</p>
                  
                  )})}
                
                  </div>
-             <hr></hr>
-      )})  
+             <hr></hr></>
+         )})  
             
           }
 
@@ -115,6 +123,8 @@ const handleClick = () => {
       
       
       
-        </>
+        </div>
+      
+    </div>
     )
 }
