@@ -1,157 +1,121 @@
-import React from "react"
-import './App.css'
-import { nanoid } from 'nanoid'
-import Quiz from "../components/Quiz"
+import "./styles.css";
+import { useMemo, useState } from "react";
+import { nanoid } from "nanoid";
+import { clsx } from "clsx";
 
 
-const gitHubUrl = "https://opentdb.com/api.php?amount=5&type=multiple";
+function Question({
+  question: { question, correct_answer, incorrect_answers, selected },
+  onSelect,
+  showAnswer
+}) {
+  const options = useMemo(() => {
+    return [...incorrect_answers, correct_answer].sort(
+      () => Math.random() - 0.5
+    );
+  }, [correct_answer, incorrect_answers]);
 
-
-
-
-
-
-  
-export default function App() {
-
-  const [intro, setIntro] = React.useState(true);
-
-   const [starWarsData, setStarWarsData] = React.useState()
-  
-  const [active, setActive] = React.useState(false);
-
-
-  let QuestionsArray = []
-  let quizElements = []
-
-  const getGitHubUserWithFetch = async () => {
-  const response = await fetch(gitHubUrl)
-  const jsonData = await response.json()
-  apiToState(jsonData)
-  }
-const handleClick = () => {
-    setActive(!active);
+  const getClasses = (answer) => {
+    return clsx(
+      { selected: selected === answer },
+      showAnswer && {
+        correct: answer === correct_answer,
+        wrong: selected === answer && selected !== correct_answer
+      }
+    );
   };
 
-
-  function apiToState(obj) {
-    const results = obj.results;
-
-    const arrOrder = results.map((questionSet) => ({
-      id: nanoid(),
-      question: questionSet.question,
-      ansArr: getAnsArr(
-        questionSet.correct_answer,
-        questionSet.incorrect_answers
-      ),
-      correct: false,
-    }));
-    console.log('arrOrder - ' + arrOrder);
-    setStarWarsData(arrOrder);
-    
-  }
-
-  
-  function shuffle(array) {
-    let currentIndex = array.length,
-      randomIndex;
-
-    // While there remain elements to shuffle.
-    while (currentIndex !== 0) {
-      // Pick a remaining element.
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex],
-        array[currentIndex],
-      ];
-    }
-    return array;
-  }
-
-  
-
-  function getAnsArr(correct, incorrect) {
-    const arrScram = [
-      {
-        value: correct,
-        selected: false,
-        correct: true,
-        id: nanoid(),
-      },
-    ];
-
-    for (let i = 0; i < incorrect.length; i++) {
-      arrScram.push({
-        value: incorrect[i],
-        selected: false,
-        correct: false,
-        id: nanoid(),
-      });
-    }
-    return shuffle(arrScram);
-  }
-
-
-
-  React.useEffect(function() {
-        
-        getGitHubUserWithFetch();
-        
-           
-    
-    },[])
-
-
-const getAns =   starWarsData && starWarsData.map((obj) => {
-           return (
-
-             obj.ansArr.map((obj) => {
-               return (
-                   <p onClick={handleClick} className="options" style={{ backgroundColor: active ? "black" : "white" }}>{obj.value}</p>
-                 
-                 )})
-
-             )})
-             
-
-const getObj = starWarsData && starWarsData.map((obj) => {
-           return (
-             
-
-    <Quiz value={getAns}  key={obj.id} question={obj.question} handleClick={() => handleClick()} /> 
-         )})  
-  
-
-  
-  function handleIntro() {
-    setIntro((old) => !old);
-  }
-
-  
-  
-  
-  
   return (
-    
-    <main>
-      {
-        
-            !intro
-            ?
-        getObj
-    
-    :
-      <div id="header" > <h1 >Quizically</h1>
-        <p>some kind of description</p>
-      <button onClick={handleIntro} id="button">Start Quiz</button>
-        
-      </div>
-     }
-    </main>
-    
-    
-  )
+    <div className="question--container">
+      <h1>{question}</h1>
+      {options.map((option) => (
+        <button
+          className={getClasses(option)}
+          key={option}
+          onClick={() => onSelect(option)}
+          disabled={selected}
+        >
+          {option}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+export default function App() {
+  const [questions, setQuestions] = useState([]);
+  const [start, setStart] = useState(false);
+  const [showResult, setShowResult] = useState(false);
+
+  const getQuestionsFromApi = async () => {
+    const res = await fetch(`https://opentdb.com/api.php?amount=5`);
+    return await res.json();
+  };
+
+  const gameStart = async () => {
+    const data = await getQuestionsFromApi();
+    setQuestions(
+      data.results.map((el) => ({
+        ...el,
+        id: nanoid()
+      }))
+    );
+    setStart(true);
+    setShowResult(false);
+  };
+
+  const checkResult = () => setShowResult(true);
+
+  const selectAnswer = (id) => (selected) => {
+    setQuestions((questions) =>
+      questions.map((question) =>
+        question.id === id
+          ? {
+              ...question,
+              selected
+            }
+          : question
+      )
+    );
+  };
+
+  return (
+    <div className="home--page">
+      {start ? (
+        <>
+          {questions.map((question) => (
+            <Question
+              key={question.id}
+              question={question}
+              onSelect={selectAnswer(question.id)}
+              showAnswer={showResult}
+            />
+          ))}
+        </>
+      ) : (
+        <>
+          <h1>Quizzical</h1>
+          <p>some description if needed</p>
+        </>
+      )}
+
+      <br />
+
+      {start ? (
+        showResult ? (
+          <button className="result--button" onClick={gameStart}>
+            Play again
+          </button>
+        ) : (
+          <button className="result--button" onClick={checkResult}>
+            Check the Answers
+          </button>
+        )
+      ) : (
+        <button className="start" onClick={gameStart}>
+          Start quiz
+        </button>
+      )}
+    </div>
+  );
 }

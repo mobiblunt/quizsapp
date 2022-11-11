@@ -1,0 +1,20 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.selected {
+  color: white;
+  background-color: gray;
+  border: 2px dashed black;
+}
+
+.wrong {
+  color: white;
+  background-color: red;
+}
+
+.correct {
+  color: white;
+  background-color: green;
+}
